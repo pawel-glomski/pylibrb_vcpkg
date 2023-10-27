@@ -14,12 +14,12 @@ else()
 endif()
 
 # Select fastest available FFT library according https://github.com/breakfastquay/rubberband/blob/default/COMPILING.md#fft-libraries-supported
-if(VCPKG_TARGET_IS_WINDOWS AND (VCPKG_TARGET_ARCHITECTURE STREQUAL "x86" OR VCPKG_TARGET_ARCHITECTURE STREQUAL "arm" OR VCPKG_TARGET_ARCHITECTURE STREQUAL "arm64"))
-    set(FFT_LIB "fftw")
-elseif(VCPKG_TARGET_IS_OSX AND VCPKG_TARGET_ARCHITECTURE STREQUAL "arm64")
-    set(FFT_LIB "fftw")
-else()
+if(VCPKG_TARGET_IS_WINDOWS)
     set(FFT_LIB "sleef")
+elseif(VCPKG_TARGET_IS_OSX)
+    set(FFT_LIB "auto") # selects vdsp (if is available) or sleef
+else()
+    set(FFT_LIB "fftw")
 endif()
 
 vcpkg_configure_meson(
