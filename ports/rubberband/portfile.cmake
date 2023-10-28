@@ -14,10 +14,8 @@ else()
 endif()
 
 # Select fastest available FFT library according https://github.com/breakfastquay/rubberband/blob/default/COMPILING.md#fft-libraries-supported
-if(VCPKG_TARGET_IS_WINDOWS)
-    set(FFT_LIB "sleef")
-elseif(VCPKG_TARGET_IS_OSX)
-    set(FFT_LIB "auto") # selects vdsp (if is available) or sleef
+if(VCPKG_TARGET_IS_OSX)
+    set(FFT_LIB "auto") # selects vdsp (if is available) or fftw
 else()
     set(FFT_LIB "fftw")
 endif()
@@ -34,7 +32,7 @@ vcpkg_configure_meson(
         -Dladspa=disabled          # 'auto', 'disabled', 'enabled'
         -Dlv2=disabled             # 'auto', 'disabled', 'enabled' lv2 feature is not yet supported yet because vcpkg can't isntall to 
                                    # %APPDATA%\LV2 or %COMMONPROGRAMFILES%\LV2 but also complains about dlls in "${CURRENT_PACKAGES_DIR}/lib/lv2"
-        -Dvamp=disabled           # 'auto', 'disabled', 'enabled'
+        -Dvamp=disabled            # 'auto', 'disabled', 'enabled'
         -Dcmdline=${CLI_FEATURE}   # 'auto', 'disabled', 'enabled'
         -Dtests=disabled           # 'auto', 'disabled', 'enabled'
     )
